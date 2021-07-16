@@ -30,8 +30,15 @@ class PhotoFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         setupObservers()
+        setupObserversClickBack()
 
         return binding.root
+    }
+
+    private fun setupObserversClickBack(){
+        viewModel.onClickBack.observe(viewLifecycleOwner, {
+            if (it == true) this.findNavController().popBackStack()
+        })
     }
 
     private fun setupObservers() {
