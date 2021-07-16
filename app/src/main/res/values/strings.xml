@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TypeCode</string>
+    <string name="title_users">Users</string>
+    <string name="title_photos">Photos</string>
+</resources>
