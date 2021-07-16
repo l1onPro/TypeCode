@@ -1,4 +1,4 @@
-package com.sports.typecode.ui.users
+package com.sports.typecode.ui.photos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,39 +8,38 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.sports.typecode.databinding.SreenUsersBinding
-import com.sports.typecode.network.UserResponse
+import com.sports.typecode.databinding.SreenPhotosBinding
+import com.sports.typecode.network.PhotoResponse
 import com.sports.typecode.utils.Status
 
-class UsersFragment : Fragment() {
+class PhotoFragment : Fragment() {
 
-    private val viewModel: UsersViewModel by viewModels()
-    private lateinit var adapter: UserAdapter
+    private val viewModel: PhotoViewModel by viewModels()
+    private lateinit var adapter: PhotoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = SreenUsersBinding.inflate(inflater)
+        val binding = SreenPhotosBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        adapter = UserAdapter(arrayListOf()) { id ->
-            this.findNavController().navigate(UsersFragmentDirections.actionUsersFragmentToPhotoFragment(id))
-        }
+        adapter = PhotoAdapter(arrayListOf())
         binding.recyclerView.adapter = adapter
+
         setupObservers()
 
         return binding.root
     }
 
     private fun setupObservers() {
-        viewModel.getUsers().observe(viewLifecycleOwner, {
+        viewModel.getPhotos().observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
-                        resource.data?.let { users -> retrieveList(users) }
+                        resource.data?.let { photos -> retrieveList(photos) }
                     }
                     Status.ERROR -> {
                         Toast.makeText(this.context, it.message, Toast.LENGTH_LONG).show()
@@ -53,9 +52,9 @@ class UsersFragment : Fragment() {
         })
     }
 
-    private fun retrieveList(users: List<UserResponse>) {
+    private fun retrieveList(photos: List<PhotoResponse>) {
         adapter.apply {
-            addUsers(users)
+            addPhotos(photos)
             notifyDataSetChanged()
         }
     }

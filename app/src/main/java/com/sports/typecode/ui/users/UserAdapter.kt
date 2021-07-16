@@ -8,6 +8,7 @@ import com.sports.typecode.network.UserResponse
 
 class UserAdapter(
     private val users: ArrayList<UserResponse>,
+    private val onUserClick: (Int) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.DataViewHolder>() {
 
     class DataViewHolder(private var binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -23,6 +24,7 @@ class UserAdapter(
     override fun getItemCount(): Int = users.size
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
+        holder.itemView.setOnClickListener { onUserClick(position) }
         holder.bind(users[position])
     }
 
