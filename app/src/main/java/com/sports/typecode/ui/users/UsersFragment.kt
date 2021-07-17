@@ -23,15 +23,19 @@ class UsersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = SreenUsersBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
 
         adapter = UserAdapter(arrayListOf()) { id ->
             this.findNavController().navigate(UsersFragmentDirections.actionUsersFragmentToPhotoFragment(id))
         }
-        binding.recyclerView.adapter = adapter
+
+        binding.apply {
+            lifecycleOwner = this@UsersFragment
+            viewModel = this@UsersFragment.viewModel
+        }
+
         setupObservers()
 
+        binding.recyclerView.adapter = adapter
         return binding.root
     }
 
@@ -40,7 +44,7 @@ class UsersFragment : Fragment() {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
-                        resource.data?.let { users -> retrieveList(users) }
+                        resource.data?.let (::retrieveList)
                     }
                     Status.ERROR -> {
                         Toast.makeText(this.context, it.message, Toast.LENGTH_LONG).show()

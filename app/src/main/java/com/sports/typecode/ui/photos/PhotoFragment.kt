@@ -29,6 +29,9 @@ class PhotoFragment : Fragment() {
         adapter = PhotoAdapter(arrayListOf())
         binding.recyclerView.adapter = adapter
 
+        val userId = PhotoFragmentArgs.fromBundle(requireArguments()).selectUserId
+        viewModel.setUserId(userId)
+
         setupObservers()
         setupObserversClickBack()
 
