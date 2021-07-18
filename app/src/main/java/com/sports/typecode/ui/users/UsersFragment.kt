@@ -16,13 +16,14 @@ class UsersFragment : Fragment() {
 
     private val viewModel: UsersViewModel by viewModels()
     private lateinit var adapter: UserAdapter
+    private lateinit var binding: SreenUsersBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = SreenUsersBinding.inflate(inflater)
+        binding = SreenUsersBinding.inflate(inflater)
 
         adapter = UserAdapter(arrayListOf()) { id ->
             this.findNavController().navigate(UsersFragmentDirections.actionUsersFragmentToPhotoFragment(id))
@@ -44,13 +45,16 @@ class UsersFragment : Fragment() {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.GONE
                         resource.data?.let (::retrieveList)
                     }
                     Status.ERROR -> {
                         Toast.makeText(this.context, it.message, Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING -> {
-
+                        binding.recyclerView.visibility = View.GONE
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                 }
             }
