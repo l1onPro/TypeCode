@@ -19,8 +19,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="1dp"
         app:cardBackgroundColor="@color/main_gray_light">
 
         <androidx.constraintlayout.widget.ConstraintLayout
