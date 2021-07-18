@@ -1,20 +1,61 @@
 package com.sports.typecode.ui.photos
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sports.typecode.databinding.ItemPhotoBinding
+import com.sports.typecode.network.NetworkModule
 import com.sports.typecode.network.PhotoResponse
+import kotlinx.coroutines.*
+import okhttp3.Request
+import java.lang.ref.SoftReference
 
 class PhotoAdapter(
     private val photos: ArrayList<PhotoResponse>,
+    private val coroutineScope: CoroutineScope,
 ) : ListAdapter<PhotoResponse, PhotoAdapter.DataViewHolder>(PHOTOS_COMPARATOR) {
-    class DataViewHolder(private var binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
+    private var memImages: SoftReference<Map<String, Bitmap>> = SoftReference(mapOf())
+
+    private fun getImageFromMemory(key:String): Bitmap? {
+        return memImages.get()?.get(key)
+    }
+
+    private fun addImageToMemoryCache(url: String, bitmap: Bitmap){
+        val newMap = memImages.get()?.toMutableMap()
+        newMap?.put(url, bitmap)
+        memImages = SoftReference(newMap)
+    }
+
+    inner class DataViewHolder(private var binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: PhotoResponse) {
             binding.photo = photo
             binding.executePendingBindings()
+
+            val image = getImageFromMemory(photo.url)
+            if (image != null){
+                binding.image.setImageBitmap(image)
+            } else {
+                coroutineScope.launch {
+                    val btEdges = async(Dispatchers.IO) {
+                        getImage(photo.url)
+                    }
+                    withContext(Dispatchers.Main){
+                        val bitmap = btEdges.await()
+                        addImageToMemoryCache(photo.url, bitmap)
+                        binding.image.setImageBitmap(bitmap)
+                    }
+                }
+            }
+        }
+
+        fun getImage(url:String) : Bitmap {
+            val req = Request.Builder().url(url).build()
+            val response = NetworkModule.httpClient.newCall(req).execute() // BLOCKING
+            return BitmapFactory.decodeStream(response.body?.byteStream())
         }
     }
 
