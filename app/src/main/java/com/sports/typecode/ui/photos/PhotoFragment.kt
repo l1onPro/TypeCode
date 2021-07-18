@@ -20,6 +20,8 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class PhotoFragment : Fragment(), CoroutineScope {
+    private lateinit var binding: SreenPhotosBinding
+
     lateinit var job: Job
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
@@ -42,7 +44,7 @@ class PhotoFragment : Fragment(), CoroutineScope {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = SreenPhotosBinding.inflate(inflater)
+        binding = SreenPhotosBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -71,13 +73,16 @@ class PhotoFragment : Fragment(), CoroutineScope {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.GONE
                         resource.data?.let { photos -> retrieveList(photos) }
                     }
                     Status.ERROR -> {
                         Toast.makeText(this.context, it.message, Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING -> {
-
+                        binding.recyclerView.visibility = View.GONE
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                 }
             }
