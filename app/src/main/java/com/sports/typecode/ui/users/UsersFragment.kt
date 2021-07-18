@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.sports.typecode.databinding.SreenUsersBinding
+import com.sports.typecode.databinding.ScreenUsersBinding
 import com.sports.typecode.network.UserResponse
 import com.sports.typecode.utils.Status
 
@@ -16,14 +16,14 @@ class UsersFragment : Fragment() {
 
     private val viewModel: UsersViewModel by viewModels()
     private lateinit var adapter: UserAdapter
-    private lateinit var binding: SreenUsersBinding
+    private lateinit var binding: ScreenUsersBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = SreenUsersBinding.inflate(inflater)
+        binding = ScreenUsersBinding.inflate(inflater)
 
         adapter = UserAdapter(arrayListOf()) { id ->
             this.findNavController().navigate(UsersFragmentDirections.actionUsersFragmentToPhotoFragment(id))

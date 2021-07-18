@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.sports.typecode.databinding.SreenPhotosBinding
+import com.sports.typecode.databinding.ScreenPhotosBinding
 import com.sports.typecode.network.PhotoResponse
 import com.sports.typecode.ui.photos.decorations.SizeItemDecoration
 import com.sports.typecode.ui.photos.decorations.SpacesItemDecoration
@@ -20,7 +20,7 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class PhotoFragment : Fragment(), CoroutineScope {
-    private lateinit var binding: SreenPhotosBinding
+    private lateinit var binding: ScreenPhotosBinding
 
     lateinit var job: Job
     override val coroutineContext: CoroutineContext
@@ -44,7 +44,7 @@ class PhotoFragment : Fragment(), CoroutineScope {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = SreenPhotosBinding.inflate(inflater)
+        binding = ScreenPhotosBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 

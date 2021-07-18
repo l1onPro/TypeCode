@@ -9,7 +9,7 @@
         android:id="@+id/usersFragment"
         android:name="com.sports.typecode.ui.users.UsersFragment"
         android:label="UsersFragment"
-        tools:layout="@layout/sreen_users">
+        tools:layout="@layout/screen_users">
         <action
             android:id="@+id/action_usersFragment_to_photoFragment"
             app:destination="@id/photoFragment" />
@@ -19,7 +19,7 @@
         android:id="@+id/photoFragment"
         android:name="com.sports.typecode.ui.photos.PhotoFragment"
         android:label="PhotoFragment"
-        tools:layout="@layout/sreen_photos">
+        tools:layout="@layout/screen_photos">
 
         <argument
             android:name="selectUserId"
