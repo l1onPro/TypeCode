@@ -13,4 +13,4 @@
 ## Выполнение 
 Technology stack: Android, Kotlin, MVVM, Retrofit, Coroutines, Android Architecture Components, Android Data Binding, Navigation Components
 
-![Image alt](https://i.yapx.ru/NOLXa.jpg) ![Image alt](https://i.yapx.ru/NOLXc.jpg)
+![Image alt](https://i.yapx.ru/NOLXa.jpg) ![Image alt](https://i.yapx.ru/NOLfe.jpg)
