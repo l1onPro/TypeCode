@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sports.typecode.databinding.SreenPhotosBinding
 import com.sports.typecode.network.PhotoResponse
+import com.sports.typecode.utils.ScreenUtils
 import com.sports.typecode.utils.Status
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -45,6 +46,7 @@ class PhotoFragment : Fragment(), CoroutineScope {
 
         adapter = PhotoAdapter(arrayListOf(), this.lifecycleScope)
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.addItemDecoration(SpacesItemDecoration(ScreenUtils.dp(8)))
 
         val userId = PhotoFragmentArgs.fromBundle(requireArguments()).selectUserId
         viewModel.setUserId(userId)
