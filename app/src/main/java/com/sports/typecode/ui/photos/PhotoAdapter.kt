@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sports.typecode.databinding.ItemPhotoBinding
 import com.sports.typecode.network.NetworkModule
 import com.sports.typecode.network.PhotoResponse
+import com.sports.typecode.utils.ScreenUtils
 import kotlinx.coroutines.*
 import okhttp3.Request
 import java.lang.ref.SoftReference
@@ -49,6 +50,7 @@ class PhotoAdapter(
                         val bitmap = btEdges.await()
                         addImageToMemoryCache(photo.url, bitmap)
                         binding.image.setImageBitmap(bitmap)
+                        binding.image.layoutParams.height = ScreenUtils.getScreenWidth() - ScreenUtils.dp(32)
                         binding.progressBar.visibility = View.GONE
                     }
                 }
