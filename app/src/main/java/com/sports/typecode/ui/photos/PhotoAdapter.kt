@@ -3,6 +3,7 @@ package com.sports.typecode.ui.photos
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -38,6 +39,7 @@ class PhotoAdapter(
             val image = getImageFromMemory(photo.url)
             if (image != null){
                 binding.image.setImageBitmap(image)
+                binding.progressBar.visibility = View.GONE
             } else {
                 coroutineScope.launch {
                     val btEdges = async(Dispatchers.IO) {
@@ -47,6 +49,7 @@ class PhotoAdapter(
                         val bitmap = btEdges.await()
                         addImageToMemoryCache(photo.url, bitmap)
                         binding.image.setImageBitmap(bitmap)
+                        binding.progressBar.visibility = View.GONE
                     }
                 }
             }
