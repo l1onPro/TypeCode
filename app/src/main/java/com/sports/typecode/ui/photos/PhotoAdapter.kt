@@ -34,6 +34,7 @@ class PhotoAdapter(
 
     inner class DataViewHolder(private var binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: PhotoResponse) {
+            binding.image.layoutParams.height = ScreenUtils.getScreenWidth() - ScreenUtils.dp(32)
             binding.photo = photo
             binding.executePendingBindings()
 
@@ -50,7 +51,6 @@ class PhotoAdapter(
                         val bitmap = btEdges.await()
                         addImageToMemoryCache(photo.url, bitmap)
                         binding.image.setImageBitmap(bitmap)
-                        binding.image.layoutParams.height = ScreenUtils.getScreenWidth() - ScreenUtils.dp(32)
                         binding.progressBar.visibility = View.GONE
                     }
                 }
