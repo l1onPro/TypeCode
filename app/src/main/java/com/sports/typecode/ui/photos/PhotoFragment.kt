@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sports.typecode.databinding.ScreenPhotosBinding
 import com.sports.typecode.network.PhotoResponse
@@ -25,6 +24,7 @@ class PhotoFragment : Fragment(), CoroutineScope {
     lateinit var job: Job
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
+    private val uiScope = CoroutineScope(coroutineContext)
 
     private val viewModel: PhotoViewModel by viewModels()
     private lateinit var adapter: PhotoAdapter
@@ -48,7 +48,7 @@ class PhotoFragment : Fragment(), CoroutineScope {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        adapter = PhotoAdapter(arrayListOf(), this.lifecycleScope)
+        adapter = PhotoAdapter(arrayListOf(), uiScope)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(SpacesItemDecoration(ScreenUtils.dp(8)))
         binding.recyclerView.addItemDecoration(SizeItemDecoration())
